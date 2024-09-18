@@ -1,0 +1,9 @@
+:~  title+'Shrubberish'
+    info+'A small attempt at a shrubbery.'
+    color+0x1c.8c56
+    base+'shrubberish'
+    site+/apps/shrubberish
+    version+[0 1 0]
+    website+'https://x.com/hanfel_dovned'
+    license+''
+==
