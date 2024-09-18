@@ -58,12 +58,12 @@
   ^-  (quip card _this)
   `this
 ::
-++  on-fail   on-fail:def
 ++  on-leave  on-leave:def
+++  on-fail   on-fail:def
 --
 ::
 |_  [=bowl:gall deck=(list card)]
-+*  that  . 
++*  that  .
 ::
 ++  emit  |=(=card that(deck [card deck]))
 ++  emil  |=(lac=(list card) that(deck (welp lac deck)))
