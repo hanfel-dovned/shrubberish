@@ -63,7 +63,7 @@
 --
 ::
 |_  [=bowl:gall deck=(list card)]
-+*  that  .
++*  that  . 
 ::
 ++  emit  |=(=card that(deck [card deck]))
 ++  emil  |=(lac=(list card) that(deck (welp lac deck)))
