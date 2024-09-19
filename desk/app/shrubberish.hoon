@@ -80,7 +80,7 @@
   ::
   ++  poke
     |=  [mark noun]
-    [~ this(state 2)]
+    [~ this(state (add state 1))]
   ::
   ++  read
     |=  path
@@ -95,4 +95,15 @@
   |=  [=mark =vase]
   ^+  that
   that
+::
+++  run-card
+  |=  [=shrub =carb]
+  ^+  that
+  ?-    -.carb
+      %make  !!
+      %poke
+    =^  deck  shrub
+      (~(poke shrub [our.bowl eny.bowl now.bowl]) [%noun 0])
+    that(shrubs (~(put by shrubs) %test shrub))
+  ==
 --

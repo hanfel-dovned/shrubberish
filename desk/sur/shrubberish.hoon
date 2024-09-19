@@ -4,7 +4,7 @@
       eny=@uvJ 
       now=@da
   ==
-+$  card
++$  carb
   $%  [%make ~]
       [%poke ~]
   ==
@@ -14,11 +14,11 @@
   +*  this  .
   ++  init
     |~  noun
-    *[(list card) _^|(this)]
+    *[(list carb) _^|(this)]
   ::
   ++  poke
     |~  [mark noun]
-    *[(list card) _^|(this)]
+    *[(list carb) _^|(this)]
   ::
   ++  read
     |~  path
