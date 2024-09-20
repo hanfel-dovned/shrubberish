@@ -1,10 +1,10 @@
-/-  *shrubberish
+/-  sh=shrubberish
 /+  default-agent, dbug
 |%
 +$  versioned-state
   $%  state-0
   ==
-+$  state-0  [%0 shrubs=(map @tas shrub)]
++$  state-0  [%0 shrubs=(map path shrub:sh)]
 +$  card  card:agent:gall
 --
 %-  agent:dbug
@@ -70,9 +70,9 @@
 ++  abet  ^-((quip card _state) [(flop deck) state])
 ::
 ++  first  
-  ^-  shrub
+  ^-  shrub:sh
   =/  state  0
-  |_  =cup
+  |_  =bowl:sh
   +*  this  .
   ++  init
     |=  noun
@@ -89,21 +89,21 @@
 ::
 ++  init
   ^+  that
-  that(shrubs (~(put by shrubs) %test first))
+  that(shrubs (~(put by shrubs) /first first))
 ::
 ++  poke
   |=  [=mark =vase]
   ^+  that
-  that
-::
-++  run-card
-  |=  [=shrub =carb]
-  ^+  that
-  ?-    -.carb
-      %make  !!
+  ?>  =(%shrubberish-card mark)
+  =/  card  !<(card:sh vase)
+  ?-    -.card
+      %make
+    that(shrubs (~(put by shrubs) path.card shrub.card))
+  ::
       %poke
+    =/  =shrub:sh  (~(got by shrubs) path.card)
     =^  deck  shrub
-      (~(poke shrub [our.bowl eny.bowl now.bowl]) [%noun 0])
-    that(shrubs (~(put by shrubs) %test shrub))
+      (~(poke shrub [our eny now]:bowl) cage.card)
+    that(shrubs (~(put by shrubs) /first shrub))
   ==
 --

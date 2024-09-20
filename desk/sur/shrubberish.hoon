@@ -1,24 +1,24 @@
 |%
-+$  cup
++$  bowl
   $:  our=ship
       eny=@uvJ 
       now=@da
   ==
-+$  carb
-  $%  [%make ~]
-      [%poke ~]
++$  card
+  $%  [%make =path =shrub]
+      [%poke =path =cage]
   ==
 +$  shrub
   $_  ^|
-  |_  cup
+  |_  bowl
   +*  this  .
   ++  init
     |~  noun
-    *[(list carb) _^|(this)]
+    *[(list card) _^|(this)]
   ::
   ++  poke
     |~  [mark noun]
-    *[(list carb) _^|(this)]
+    *[(list card) _^|(this)]
   ::
   ++  read
     |~  path
