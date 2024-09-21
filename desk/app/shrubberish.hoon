@@ -4,7 +4,9 @@
 +$  versioned-state
   $%  state-0
   ==
-+$  state-0  [%0 shrubs=(map path shrub:sh)]
++$  state-0  $:  %0 
+                 shrubs=(map path shrub:sh)
+             ==
 +$  card  card:agent:gall
 --
 %-  agent:dbug
@@ -62,12 +64,12 @@
 ++  on-fail   on-fail:def
 --
 ::
-|_  [=bowl:gall deck=(list card)]
+|_  [=bowl:gall dik=(list card)]
 +*  that  .
 ::
-++  emit  |=(=card that(deck [card deck]))
-++  emil  |=(lac=(list card) that(deck (welp lac deck)))
-++  abet  ^-((quip card _state) [(flop deck) state])
+++  emit  |=(=card that(dik [card dik]))
+++  emil  |=(lac=(list card) that(dik (welp lac dik)))
+++  abet  ^-((quip card _state) [(flop dik) state])
 ::
 ++  first  
   ^-  shrub:sh
@@ -75,7 +77,7 @@
   |_  =bowl:sh
   +*  this  .
   ++  init
-    |=  noun
+    |=  [mark noun]
     [~ this(state 1)]
   ::
   ++  poke
@@ -91,19 +93,62 @@
   ^+  that
   that(shrubs (~(put by shrubs) /first first))
 ::
+::  Entry point.
 ++  poke
   |=  [=mark =vase]
   ^+  that
   ?>  =(%shrubberish-card mark)
   =/  card  !<(card:sh vase)
-  ?-    -.card
+  (play [[card ~] ~])
+::
+::  Apply the next card to the namespace.
+++  play
+  |=  [stack=(list card:sh) async=(list card:sh)]
+  ^+  that
+  ?:  ?&(=(~ stack) =(~ async))
+    that
+  =/  =card:sh
+    ?~  stack
+      -.async
+    -.stack
+  ?-    -.act.card
       %make
-    that(shrubs (~(put by shrubs) path.card shrub.card))
+    =/  a  :: [deck shrub]
+      (~(init shrub.act.card [our eny now]:bowl) cage.act.card)
+    =.  shrubs  (~(put by shrubs) path.card +.a)
+    (cut [-.a path.card stack async])
   ::
       %poke
     =/  =shrub:sh  (~(got by shrubs) path.card)
     =^  deck  shrub
-      (~(poke shrub [our eny now]:bowl) cage.card)
-    that(shrubs (~(put by shrubs) /first shrub))
+      (~(poke shrub [our eny now]:bowl) cage.act.card)
+    =.  shrubs  (~(put by shrubs) path.card shrub)
+    (cut [(flop deck) path.card stack async])
   ==
+::
+::  Sort cards into call stack and async queue,
+::  then recurse to ++play.
+++  cut
+  |=  $:  deck=(list card:sh) 
+          =path 
+          stack=(list card:sh)
+          async=(list card:sh)
+      ==
+  |-
+  ?~  deck
+    (play [stack async])
+  =/  ca=card:sh  -.deck
+  ?:  (is-child path.ca path)
+    $(stack [-.deck stack], deck +.deck)
+  $(async [-.deck async], deck +.deck)
+::
+::  Whether baby is a continuation of accused.
+++  is-child
+  |=  [baby=path accused=path]
+  ^-  ?
+  |-
+  ?~  accused  %.y
+  ?~  baby  %.n
+  ?.  =(-.baby -.accused)  %.n
+  $(baby +.baby, accused +.accused)
 --

@@ -4,16 +4,17 @@
       eny=@uvJ 
       now=@da
   ==
-+$  card
-  $%  [%make =path =shrub]
-      [%poke =path =cage]
++$  card  [=path =act]
++$  act
+  $%  [%make =shrub =cage]
+      [%poke =cage]
   ==
 +$  shrub
   $_  ^|
   |_  bowl
   +*  this  .
   ++  init
-    |~  noun
+    |~  [mark noun]
     *[(list card) _^|(this)]
   ::
   ++  poke
