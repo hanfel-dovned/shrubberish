@@ -83,10 +83,6 @@
   ++  poke
     |=  [mark noun]
     [~ this(state (add state 1))]
-  ::
-  ++  read
-    |=  path
-    [~ ~]
   --
 ::
 ++  init
@@ -112,6 +108,11 @@
       -.async
     -.stack
   ?-    -.act.card
+      %read
+    =/  shrub  (~(got by shrubs) path.card)
+    ~&  >  +7.shrub
+    that
+  ::
       %make
     =/  a  :: [deck shrub]
       (~(init shrub.act.card [our eny now]:bowl) cage.act.card)

@@ -8,6 +8,7 @@
 +$  act
   $%  [%make =shrub =cage]
       [%poke =cage]
+      [%read ~]
   ==
 +$  shrub
   $_  ^|
@@ -20,9 +21,5 @@
   ++  poke
     |~  [mark noun]
     *[(list card) _^|(this)]
-  ::
-  ++  read
-    |~  path
-    *(unit (unit cage))
   --
 --
