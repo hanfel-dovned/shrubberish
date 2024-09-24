@@ -5,7 +5,7 @@
   $%  state-0
   ==
 +$  state-0  $:  %0 
-                 shrubs=(map path shrub:sh)
+                 shrubs=(map path [shrub:sh state=vase])
              ==
 +$  card  card:agent:gall
 --
@@ -73,21 +73,21 @@
 ::
 ++  first  
   ^-  shrub:sh
-  =/  state  0
   |_  =bowl:sh
   +*  this  .
   ++  init
     |=  [mark noun]
-    [~ this(state 1)]
+    [~ state.bowl]
   ::
   ++  poke
     |=  [mark noun]
-    [~ this(state (add state 1))]
+    =/  sta  !<(@ud state.bowl)
+    [~ !>((add sta 1))]
   --
 ::
 ++  init
   ^+  that
-  that(shrubs (~(put by shrubs) /first first))
+  that(shrubs (~(put by shrubs) /first [first !>(0)]))
 ::
 ::  Entry point.
 ++  poke
@@ -114,17 +114,33 @@
     that
   ::
       %make
-    =/  a  :: [deck shrub]
-      (~(init shrub.act.card [our eny now]:bowl) cage.act.card)
-    =.  shrubs  (~(put by shrubs) path.card +.a)
-    (cut [-.a path.card stack async])
+    =/  shrub  shrub.act.card
+    =/  vase  vase.act.card
+    =/  output  :: [deck vase]
+      (~(init shrub (fill-bowl path.card vase) cage.act.card))
+    =.  shrubs  
+      (~(put by shrubs) path.card [shrub +.output])
+    (cut [(flop -.output) path.card stack async])
   ::
       %poke
-    =/  =shrub:sh  (~(got by shrubs) path.card)
-    =^  deck  shrub
-      (~(poke shrub [our eny now]:bowl) cage.act.card)
-    =.  shrubs  (~(put by shrubs) path.card shrub)
-    (cut [(flop deck) path.card stack async])
+    =/  shrub  (~(got by shrubs) path.card)
+    =/  vase  state:(~(got by shrubs path.card))
+    =/  output  :: [deck vase]
+      (~(poke shrub (fill-bowl path.card vase) cage.act.card))
+    =.  shrubs  
+      (~(put by shrubs) path.card [shrub +.output])
+    (cut [(flop -.output) path.card stack async])
+  ==
+::
+::  Populate the shrub's bowl before running.
+++  fill-bowl
+  |=  [=path state=vase]
+  ^-  bowl:sh
+  :*  our.bowl
+      eny.bowl
+      now.bowl
+      state
+      (get-children path)
   ==
 ::
 ::  Sort cards into call stack and async queue,
@@ -152,4 +168,14 @@
   ?~  baby  %.n
   ?.  =(-.baby -.accused)  %.n
   $(baby +.baby, accused +.accused)
+::
+::  Return all children of this path.
+++  get-children
+  |=  parent=path
+  ^-  (map path [shrub:sh vase])
+  %-  malt
+  %+  skim
+    ~(tap by shrubs)
+  |=  [baby=path *]
+  (is-child baby parent)
 --
