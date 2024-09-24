@@ -5,10 +5,11 @@
       now=@da
       state=vase
       kids=(map path [shrub vase])
+      dep=(map path [shrub vase])
   ==
 +$  card  [=path =act]
 +$  act
-  $%  [%make =shrub =cage =vase]
+  $%  [%make =shrub =cage =vase dep=path]
       [%poke =cage]
   ==
 +$  shrub

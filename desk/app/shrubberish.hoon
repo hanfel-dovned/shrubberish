@@ -5,7 +5,7 @@
   $%  state-0
   ==
 +$  state-0  $:  %0 
-                 shrubs=(map path [shrub:sh state=vase])
+                 shrubs=(map path [shrub:sh state=vase dep=path])
              ==
 +$  card  card:agent:gall
 --
@@ -135,17 +135,19 @@
       %make
     =/  shrub  shrub.act.card
     =/  vase  vase.act.card
+    =/  dep  dep.act.card
     =/  output  :: [deck vase]
-      (~(init shrub (fill-bowl path.card vase) cage.act.card))
+      (~(init shrub (fill-bowl path.card vase dep) cage.act.card))
     =.  shrubs  
       (~(put by shrubs) path.card [shrub +.output])
     (cut [(flop -.output) path.card stack async])
   ::
       %poke
-    =/  shrub  (~(got by shrubs) path.card)
+    =/  shrub  shrub:(~(got by shrubs) path.card)
     =/  vase  state:(~(got by shrubs path.card))
+    =/  dep  dep:(~(got by shrubs) path.card)
     =/  output  :: [deck vase]
-      (~(poke shrub (fill-bowl path.card vase) cage.act.card))
+      (~(poke shrub (fill-bowl path.card vase dep) cage.act.card))
     =.  shrubs  
       (~(put by shrubs) path.card [shrub +.output])
     (cut [(flop -.output) path.card stack async])
@@ -160,6 +162,9 @@
       now.bowl
       state
       (get-children path)
+      ::
+      %-  ~(put by (get-children dep))
+      [dep (~(got by shrubs) dep)]
   ==
 ::
 ::  Sort cards into call stack and async queue,
