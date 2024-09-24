@@ -10,7 +10,6 @@
 +$  act
   $%  [%make =shrub =cage =vase]
       [%poke =cage]
-      [%read ~]
   ==
 +$  shrub
   $_  ^|

@@ -58,7 +58,10 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
-  `this
+  ?>  =(our.bowl src.bowl)
+  ?+    path  `this
+      [%http-response *]  `this
+  ==
 ::
 ++  on-leave  on-leave:def
 ++  on-fail   on-fail:def
@@ -87,15 +90,36 @@
 ::
 ++  init
   ^+  that
-  that(shrubs (~(put by shrubs) /first [first !>(0)]))
+  =.  shrubs
+    (~(put by shrubs) /first [first !>(0)])
+  %-  emit
+  :*  %pass  /eyre/connect   
+      %arvo  %e  %connect
+      `/shrubberish  %shrubberish
+  ==
 ::
 ::  Entry point.
 ++  poke
   |=  [=mark =vase]
   ^+  that
-  ?>  =(%shrubberish-card mark)
-  =/  card  !<(card:sh vase)
-  (play [[card ~] ~])
+  ?>  (our.bowl src.bowl)
+  ?+    mark  !!
+      %shrubberish-card
+    =/  card  !<(card:sh vase)
+    (play [[card ~] ~])
+  ::
+      %handle-http-request
+    =+  !<([eyre-id=@ta req=inbound-request:eyre] vase)
+    =/  parsed
+      %+  rash  url.request.req
+      ;~  plug
+          ;~(pfix fas (more fas smeg:de-purl:html))
+          yque:de-purl:html
+      ==
+    =/  card  
+      [-.parsed [%poke %handle-http-request vase]]
+    (play [[card ~] ~])
+  ==
 ::
 ::  Apply the next card to the namespace.
 ++  play
@@ -108,11 +132,6 @@
       -.async
     -.stack
   ?-    -.act.card
-      %read
-    =/  shrub  (~(got by shrubs) path.card)
-    ~&  >  +7.shrub
-    that
-  ::
       %make
     =/  shrub  shrub.act.card
     =/  vase  vase.act.card
