@@ -5,7 +5,7 @@
   $%  state-0
   ==
 +$  state-0  $:  %0 
-                 shrubs=(map path [shrub:sh state=vase dep=path])
+                 shrubs=(map puth:sh [shrub:sh state=vase dep=puth])
              ==
 +$  card  card:agent:gall
 --
@@ -91,7 +91,7 @@
 ++  init
   ^+  that
   =.  shrubs
-    (~(put by shrubs) /first [first !>(0)])
+    (~(put by shrubs) [our.bowl /first] [first !>(0)])
   %-  emit
   :*  %pass  /eyre/connect   
       %arvo  %e  %connect
@@ -133,29 +133,43 @@
     -.stack
   ?-    -.act.card
       %make
+    ?>  =(our.bowl ship.puth.card)
     =/  shrub  shrub.act.card
     =/  vase  vase.act.card
     =/  dep  dep.act.card
-    =/  output  :: [deck vase]
-      (~(init shrub (fill-bowl path.card vase dep) cage.act.card))
-    =.  shrubs  
-      (~(put by shrubs) path.card [shrub +.output])
-    (cut [(flop -.output) path.card stack async])
+    ::  if no dependency, make right away
+    ?~  dep
+      (make-shrub shrub vase dep card)
+    ::  if local dependency, make right away
+    ?:  (=our.bowl ship.u.dep)
+      (make-shrub shrub vase dep card)
+    ::  if remote dependency, subscribe and wait
+    !!
   ::
       %poke
-    =/  shrub  shrub:(~(got by shrubs) path.card)
-    =/  vase  state:(~(got by shrubs path.card))
-    =/  dep  dep:(~(got by shrubs) path.card)
+    =/  shrub  shrub:(~(got by shrubs) puth.card)
+    =/  vase  state:(~(got by shrubs puth.card))
+    =/  dep  dep:(~(got by shrubs) puth.card)
     =/  output  :: [deck vase]
-      (~(poke shrub (fill-bowl path.card vase dep) cage.act.card))
+      (~(poke shrub (fill-bowl path.puth.card vase dep) cage.act.card))
     =.  shrubs  
-      (~(put by shrubs) path.card [shrub +.output])
-    (cut [(flop -.output) path.card stack async])
+      (~(put by shrubs) puth.card [shrub +.output])
+    (cut [(flop -.output) path.puth.card stack async])
   ==
+::
+::  Create a shrub and run ++init.
+++  make-shrub
+  |=  [=shrub =vase =dep =card]
+  ^+  that
+  =/  output  :: [deck vase]
+    (~(init shrub (fill-bowl path.puth.card vase dep) cage.act.card))
+  =.  shrubs  
+    (~(put by shrubs) puth.card [shrub +.output])
+  (cut [(flop -.output) path.puth.card stack async])
 ::
 ::  Populate the shrub's bowl before running.
 ++  fill-bowl
-  |=  [=path state=vase]
+  |=  [=path state=vase dep=(unit puth)]
   ^-  bowl:sh
   :*  our.bowl
       eny.bowl
@@ -163,8 +177,9 @@
       state
       (get-children path)
       ::
-      %-  ~(put by (get-children dep))
-      [dep (~(got by shrubs) dep)]
+      ?~  dep  ~
+      %-  ~(put by (get-children u.dep))
+      [u.dep (~(got by shrubs) u.dep)]
   ==
 ::
 ::  Sort cards into call stack and async queue,

@@ -1,15 +1,16 @@
 |%
++$  puth  [=ship =path]
 +$  bowl
   $:  our=ship
       eny=@uvJ 
       now=@da
       state=vase
       kids=(map path [shrub vase])
-      dep=(map path [shrub vase])
+      deps=(map puth [shrub vase])
   ==
-+$  card  [=path =act]
++$  card  [=puth =act]
 +$  act
-  $%  [%make =shrub =cage =vase dep=path]
+  $%  [%make =shrub =cage =vase dep=(unit puth)]
       [%poke =cage]
   ==
 +$  shrub
